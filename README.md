@@ -5,10 +5,10 @@ A high-concurrency Go log tailer, sliding-window anomaly detector, and fault-tol
 ## 15-Day Incremental Engineering Roadmap (Month 1, Days 16–30)
 
 - [x] **Day 16:** Initialize Go module, live log stream simulator (`scripts/stream_logs.py`), and roadmap
-- [ ] **Day 17:** Implement zero-regex HTTP access log parser (`internal/model`) and table-driven tests
-- [ ] **Day 18:** Implement `context.Context`-aware file tailer with EOF polling (`internal/tailer`)
-- [ ] **Day 19:** Add live file-append and truncation tests for streaming tailer
-- [ ] **Day 20:** Implement bounded fan-out/fan-in goroutine worker pool (`internal/worker`)
+- [x] **Day 17:** Implement zero-regex HTTP access log parser (`internal/model`) and table-driven tests
+- [x] **Day 18:** Implement `context.Context`-aware file tailer with EOF polling (`internal/tailer`)
+- [x] **Day 19:** Add live file-append and truncation tests for streaming tailer
+- [x] **Day 20:** Implement bounded fan-out/fan-in goroutine worker pool (`internal/worker`)
 - [ ] **Day 21:** Implement ring-buffer sliding window for real-time traffic metrics (`internal/detector`)
 - [ ] **Day 22:** Add 5xx error-rate and p99 latency spike anomaly alerts
 - [ ] **Day 23:** Implement dual-trigger (batch size + time ticker) micro-batcher (`internal/shipper`)
