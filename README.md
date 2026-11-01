@@ -9,10 +9,10 @@ A high-concurrency Go log tailer, sliding-window anomaly detector, and fault-tol
 - [x] **Day 18:** Implement `context.Context`-aware file tailer with EOF polling (`internal/tailer`)
 - [x] **Day 19:** Add live file-append and truncation tests for streaming tailer
 - [x] **Day 20:** Implement bounded fan-out/fan-in goroutine worker pool (`internal/worker`)
-- [ ] **Day 21:** Implement ring-buffer sliding window for real-time traffic metrics (`internal/detector`)
-- [ ] **Day 22:** Add 5xx error-rate and p99 latency spike anomaly alerts
-- [ ] **Day 23:** Implement dual-trigger (batch size + time ticker) micro-batcher (`internal/shipper`)
-- [ ] **Day 24:** Add HTTP batch sink client with exponential backoff and full jitter
+- [x] **Day 21:** Implement ring-buffer sliding window for real-time traffic metrics (`internal/detector`)
+- [x] **Day 22:** Add 5xx error-rate and p99 latency spike anomaly alerts
+- [x] **Day 23:** Implement dual-trigger (batch size + time ticker) micro-batcher (`internal/shipper`)
+- [x] **Day 24:** Add HTTP batch sink client with exponential backoff and full jitter
 - [ ] **Day 25:** Add `httptest` chaos/fault-injection tests for transient `503` retries
 - [ ] **Day 26:** Expose lock-free atomic Prometheus `/metrics` and `/healthz` endpoints (`internal/metrics`)
 - [ ] **Day 27:** Wire full CLI pipeline in `cmd/gologship/main.go` with `SIGINT`/`SIGTERM` graceful drain
