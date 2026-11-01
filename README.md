@@ -59,18 +59,20 @@ batchesCh (chan model.BatchPayload)
 [Downstream HTTP Ingestion Sink]  +  [Prometheus /metrics & /healthz (:9090)]
 ```
 ## Key Engineering Highlights
+```text
 Zero-Allocation, Zero-Regex Parsing (internal/model): Uses strings.IndexByte slice indexing to parse HTTP access logs in ~75ns per line with 0 B/op (0 allocs/op).
 Bounded Memory Ring Window (internal/detector): Maintains real-time 5xx error rates and p99 tail latencies over a sliding circular buffer with alert cooldown suppression to prevent alert storms.
 Resilient Micro-Batching & Backoff (internal/shipper): Flushes batches on either item count (-batch-size) or timer expiration (-flush-interval), retrying transient 429/5xx sink failures with randomized exponential backoff while failing fast on permanent 4xx errors.
 Graceful Signal Drain (cmd/gologship): Captures SIGINT/SIGTERM via signal.NotifyContext to stop file tailing cleanly while draining all in-flight worker, detector, and batcher channels before process exit.
 Race-Verified Concurrency: Every package and the end-to-end multi-stage pipeline are continuously verified under Go's ThreadSanitizer (go test -race ./...).
-
+```
 ## Quickstart
 1. Stream Synthetic Live Logs (with Simulated 5xx Error Spike)
-Bash
+```bash
 python3 scripts/stream_logs.py -n 1000 -r 500 --inject-spike -o data/live_access.log
+```
 2. Run gologship Pipeline
-Bash
+```bash
 go run ./cmd/gologship \
   -file data/live_access.log \
   -workers 4 \
@@ -78,11 +80,12 @@ go run ./cmd/gologship \
   -flush-interval 500ms \
   -metrics-addr :9090 \
   -run-for 2s
+```
 3. Run Race-Detector Tests & Zero-Alloc Benchmarks
-Bash
+```bash
 go test -v -race ./...
 go test -bench=. -benchmem ./internal/model/...
-
+```
 ## 15-Day Incremental Engineering Roadmap (Month 1, Days 16–30)
 [x] Day 16: Initialize Go module, live log stream simulator (scripts/stream_logs.py), and roadmap
 [x] Day 17: Implement zero-regex HTTP access log parser (internal/model) and table-driven tests
