@@ -37,7 +37,7 @@ gologship/
     └── metrics/
         ├── server.go             # Lock-free atomic Prometheus /metrics & /healthz server
         └── server_test.go        # Endpoint scraping & exposition format tests
-
+```
 
 ## Streaming Pipeline Architecture
 ```text
@@ -57,7 +57,7 @@ batchesCh (chan model.BatchPayload)
    │ (internal/shipper: HTTP POST client w/ Equal-Jitter exponential backoff)
    ▼
 [Downstream HTTP Ingestion Sink]  +  [Prometheus /metrics & /healthz (:9090)]
-
+```
 ## Key Engineering Highlights
 Zero-Allocation, Zero-Regex Parsing (internal/model): Uses strings.IndexByte slice indexing to parse HTTP access logs in ~75ns per line with 0 B/op (0 allocs/op).
 Bounded Memory Ring Window (internal/detector): Maintains real-time 5xx error rates and p99 tail latencies over a sliding circular buffer with alert cooldown suppression to prevent alert storms.
