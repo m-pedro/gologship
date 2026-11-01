@@ -86,6 +86,7 @@ go run ./cmd/gologship \
 go test -v -race ./...
 go test -bench=. -benchmem ./internal/model/...
 ```
+```text
 ## 15-Day Incremental Engineering Roadmap (Month 1, Days 16–30)
 [x] Day 16: Initialize Go module, live log stream simulator (scripts/stream_logs.py), and roadmap
 [x] Day 17: Implement zero-regex HTTP access log parser (internal/model) and table-driven tests
@@ -102,3 +103,4 @@ go test -bench=. -benchmem ./internal/model/...
 [x] Day 28: Add end-to-end race-detector (go test -race) pipeline integration test
 [x] Day 29: Add testing.B parser and worker pool throughput benchmarks
 [x] Day 30: Publish Month 1 architecture diagrams, throughput benchmarks, and retrospective
+```
