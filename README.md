@@ -2,6 +2,43 @@
 
 A high-concurrency Go log tailer, sliding-window anomaly detector, and fault-tolerant HTTP micro-batch shipper with Prometheus observability—built using **100% Go standard library** with zero external dependencies.
 
+## Repo Structure
+```text
+gologship/
+├── go.mod                        # Zero external dependencies (100% Go stdlib)
+├── README.md                     # Architecture, directory layout, benchmarks & roadmap
+├── scripts/
+│   └── stream_logs.py            # Live log stream simulator with 5xx spike injection
+├── cmd/
+│   └── gologship/
+│       └── main.go               # CLI flags, SIGINT/SIGTERM drain & pipeline wiring
+└── internal/
+    ├── pipeline_test.go          # End-to-end multi-stage race-detector integration test
+    ├── model/
+    │   ├── record.go             # LogEvent, AnomalyAlert, and BatchPayload schemas
+    │   ├── parser.go             # Zero-allocation, zero-regex HTTP log slice parser
+    │   ├── parser_test.go        # Table-driven parser unit & edge-case tests
+    │   └── bench_test.go         # Single-core and parallel zero-alloc benchmarks
+    ├── tailer/
+    │   ├── tailer.go             # Context-aware streaming file follower & rotation handler
+    │   └── tailer_test.go        # Live file append & copytruncate rotation tests
+    ├── worker/
+    │   ├── pool.go               # Bounded fan-out/fan-in goroutine parsing worker pool
+    │   └── pool_test.go          # Concurrent worker pool race-safety tests
+    ├── detector/
+    │   ├── window.go             # O(1) ring-buffer sliding window for error rate & p99
+    │   ├── detector.go           # Streaming anomaly evaluator with cooldown suppression
+    │   └── window_test.go        # Deterministic clock spike & eviction tests
+    ├── shipper/
+    │   ├── batcher.go            # Dual-trigger (item count + time.Ticker) micro-batcher
+    │   ├── batcher_test.go       # Batch size, ticker flush, and shutdown drain tests
+    │   ├── client.go             # HTTP POST sink client with Equal-Jitter backoff
+    │   └── client_test.go        # httptest chaos server (503 retry recovery & 400 fast-fail)
+    └── metrics/
+        ├── server.go             # Lock-free atomic Prometheus /metrics & /healthz server
+        └── server_test.go        # Endpoint scraping & exposition format tests
+
+
 ## Streaming Pipeline Architecture
 
 ```text
@@ -21,6 +58,7 @@ batchesCh (chan model.BatchPayload)
    │ (internal/shipper: HTTP POST client w/ Equal-Jitter exponential backoff)
    ▼
 [Downstream HTTP Ingestion Sink]  +  [Prometheus /metrics & /healthz (:9090)]
+
 Key Engineering Highlights
 Zero-Allocation, Zero-Regex Parsing (internal/model): Uses strings.IndexByte slice indexing to parse HTTP access logs in ~75ns per line with 0 B/op (0 allocs/op).
 Bounded Memory Ring Window (internal/detector): Maintains real-time 5xx error rates and p99 tail latencies over a sliding circular buffer with alert cooldown suppression to prevent alert storms.
@@ -44,6 +82,7 @@ go run ./cmd/gologship \
 Bash
 go test -v -race ./...
 go test -bench=. -benchmem ./internal/model/...
+
 15-Day Incremental Engineering Roadmap (Month 1, Days 16–30)
 [x] Day 16: Initialize Go module, live log stream simulator (scripts/stream_logs.py), and roadmap
 [x] Day 17: Implement zero-regex HTTP access log parser (internal/model) and table-driven tests
