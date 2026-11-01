@@ -3,7 +3,7 @@
 A high-concurrency Go log tailer, sliding-window anomaly detector, and fault-tolerant HTTP micro-batch shipper with Prometheus observability—built using **100% Go standard library** with zero external dependencies.
 
 ## Repo Structure
-
+```text
 gologship/
 ├── go.mod                        # Zero external dependencies (100% Go stdlib)
 ├── README.md                     # Architecture, directory layout, benchmarks & roadmap
@@ -40,7 +40,7 @@ gologship/
 
 
 ## Streaming Pipeline Architecture
-
+```text
 [Log File] 
    │ (internal/tailer: EOF polling + copytruncate detection)
    ▼
