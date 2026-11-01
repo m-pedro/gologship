@@ -13,7 +13,7 @@ A high-concurrency Go log tailer, sliding-window anomaly detector, and fault-tol
 - [x] **Day 22:** Add 5xx error-rate and p99 latency spike anomaly alerts
 - [x] **Day 23:** Implement dual-trigger (batch size + time ticker) micro-batcher (`internal/shipper`)
 - [x] **Day 24:** Add HTTP batch sink client with exponential backoff and full jitter
-- [ ] **Day 25:** Add `httptest` chaos/fault-injection tests for transient `503` retries
+- [x] **Day 25:** Add `httptest` chaos/fault-injection tests for transient `503` retries
 - [ ] **Day 26:** Expose lock-free atomic Prometheus `/metrics` and `/healthz` endpoints (`internal/metrics`)
 - [ ] **Day 27:** Wire full CLI pipeline in `cmd/gologship/main.go` with `SIGINT`/`SIGTERM` graceful drain
 - [ ] **Day 28:** Add end-to-end race-detector (`go test -race`) pipeline integration test
