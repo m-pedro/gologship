@@ -59,13 +59,14 @@ batchesCh (chan model.BatchPayload)
    ▼
 [Downstream HTTP Ingestion Sink]  +  [Prometheus /metrics & /healthz (:9090)]
 
-Key Engineering Highlights
+## Key Engineering Highlights
 Zero-Allocation, Zero-Regex Parsing (internal/model): Uses strings.IndexByte slice indexing to parse HTTP access logs in ~75ns per line with 0 B/op (0 allocs/op).
 Bounded Memory Ring Window (internal/detector): Maintains real-time 5xx error rates and p99 tail latencies over a sliding circular buffer with alert cooldown suppression to prevent alert storms.
 Resilient Micro-Batching & Backoff (internal/shipper): Flushes batches on either item count (-batch-size) or timer expiration (-flush-interval), retrying transient 429/5xx sink failures with randomized exponential backoff while failing fast on permanent 4xx errors.
 Graceful Signal Drain (cmd/gologship): Captures SIGINT/SIGTERM via signal.NotifyContext to stop file tailing cleanly while draining all in-flight worker, detector, and batcher channels before process exit.
 Race-Verified Concurrency: Every package and the end-to-end multi-stage pipeline are continuously verified under Go's ThreadSanitizer (go test -race ./...).
-Quickstart
+
+## Quickstart
 1. Stream Synthetic Live Logs (with Simulated 5xx Error Spike)
 Bash
 python3 scripts/stream_logs.py -n 1000 -r 500 --inject-spike -o data/live_access.log
