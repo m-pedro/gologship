@@ -83,7 +83,7 @@ Bash
 go test -v -race ./...
 go test -bench=. -benchmem ./internal/model/...
 
-15-Day Incremental Engineering Roadmap (Month 1, Days 16–30)
+## 15-Day Incremental Engineering Roadmap (Month 1, Days 16–30)
 [x] Day 16: Initialize Go module, live log stream simulator (scripts/stream_logs.py), and roadmap
 [x] Day 17: Implement zero-regex HTTP access log parser (internal/model) and table-driven tests
 [x] Day 18: Implement context.Context-aware file tailer with EOF polling (internal/tailer)
